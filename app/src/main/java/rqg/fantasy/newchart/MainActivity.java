@@ -2,6 +2,7 @@ package rqg.fantasy.newchart;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,10 +31,14 @@ public class MainActivity extends AppCompatActivity {
         int dataSize = 10;
         ArrayList<Integer> yList = new ArrayList<>(dataSize);
         for (int i = 0; i < dataSize; i++) {
-            yList.add(mRandom.nextInt(300));
+            yList.add(mRandom.nextInt(300) / 50);
         }
 
         dayHeartData.setyValueList(yList);
         mDayHeartChart.setDayHeartData(dayHeartData);
+    }
+
+    public void refresh(View view) {
+        setChartHeartDayData();
     }
 }

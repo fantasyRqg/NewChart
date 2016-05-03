@@ -36,7 +36,7 @@ public class YAxisRender implements ChartRender {
 
         mSelfBounds.set(mSelfBounds.left
                 , mSelfBounds.top
-                , mSelfBounds.left + TEXT_PADDING_LEFT + mValuePaint.getTextSize() * 4
+                , mSelfBounds.left + TEXT_PADDING_LEFT + mValuePaint.getTextSize() * 2
                 , mSelfBounds.bottom);
     }
 

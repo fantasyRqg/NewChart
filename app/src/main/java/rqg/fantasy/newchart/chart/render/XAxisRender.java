@@ -14,13 +14,12 @@ public class XAxisRender implements ChartRender {
 
     protected RectF mBounds = new RectF();
     protected RectF mSelfBounds = new RectF();
+    private int mMaxBarWidth;
+    private int mDataSize = 0;
 
-    private static final int TEXT_PADDING_BOTTOM = 50;
-    private static final int TEXT_PADDING_TOP = 15;
 
-    private Paint mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-    public XAxisRender() {
+    public XAxisRender(int maxBarWidth) {
+        mMaxBarWidth = maxBarWidth;
 
         initPaint();
 
@@ -29,6 +28,11 @@ public class XAxisRender implements ChartRender {
                 mSelfBounds.right
                 , mSelfBounds.top + TEXT_PADDING_BOTTOM + TEXT_PADDING_TOP + mValuePaint.getTextSize());
     }
+
+    private static final int TEXT_PADDING_BOTTOM = 50;
+    private static final int TEXT_PADDING_TOP = 15;
+
+    private Paint mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
 
     private void initPaint() {
@@ -44,6 +48,11 @@ public class XAxisRender implements ChartRender {
         mBounds.set(left, top, right, bottom);
 
         mSelfBounds.set(mBounds.left, mBounds.bottom - mSelfBounds.height(), mBounds.right, mBounds.bottom);
+    }
+
+
+    public void setDataSize(int dataSize) {
+        mDataSize = dataSize;
     }
 
     @Override
