@@ -1,4 +1,4 @@
-package rqg.test.newchart;
+package rqg.fantasy.newchart;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
