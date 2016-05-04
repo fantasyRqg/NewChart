@@ -13,6 +13,7 @@ import rqg.fantasy.newchart.chart.ChartRender;
  * *Created by rqg on 5/3/16.
  */
 public class BarXAxisRender implements ChartRender {
+
     protected RectF mBounds = new RectF();
     protected RectF mSelfBounds = new RectF();
 
@@ -58,10 +59,10 @@ public class BarXAxisRender implements ChartRender {
 
 
     public void setBarBoundsArray(RectF[] barBoundsArray) {
+        mXAxisLine.reset();
+
         if (barBoundsArray == null)
             return;
-
-        mXAxisLine.reset();
         for (RectF rf : barBoundsArray) {
             mXAxisLine.moveTo(rf.left, rf.bottom);
             mXAxisLine.lineTo(rf.right, rf.bottom);

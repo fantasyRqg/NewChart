@@ -66,11 +66,10 @@ public class DashLineRender {
                 points[i] = new ChartPoint(rf.centerX(), rf.top);
             }
         }
-        ChartPoint first = new ChartPoint(barBoundsArray[0].centerX(), barBoundsArray[0].top);
-        computePath(points, first);
+        computePath(points);
     }
 
-    public void computePath(ChartPoint[] pointArray, ChartPoint first) {
+    public void computePath(ChartPoint[] pointArray) {
         mSolidPath.reset();
         mDashPath.reset();
 
@@ -81,10 +80,7 @@ public class DashLineRender {
             ChartPoint cp = pointArray[i];
 
             if (i == 0) {
-                if (cp == null) {
-                    mSolidPath.moveTo(first.x, first.y);
-                    mDashPath.moveTo(first.x, first.y);
-                } else {
+                if (cp != null) {
                     mSolidPath.moveTo(cp.x, cp.y);
                     mDashPath.moveTo(cp.x, cp.y);
                 }
@@ -95,7 +91,11 @@ public class DashLineRender {
                     }
                 } else {
                     if (lastCP == null) {
-                        mDashPath.lineTo(cp.x, cp.y);
+                        if (mDashPath.isEmpty()) {
+                            mDashPath.moveTo(cp.x, cp.y);
+                        } else {
+                            mDashPath.lineTo(cp.x, cp.y);
+                        }
                     } else if (llCp == null) {
                         mSolidPath.moveTo(lastCP.x, lastCP.y);
                         mSolidPath.lineTo(cp.x, cp.y);
