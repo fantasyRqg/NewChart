@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import rqg.fantasy.newchart.chart.ChartRender;
 
@@ -25,6 +24,7 @@ public class DayHeartContentRender implements ChartRender {
 
     private Paint mContentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
+    private BarBoundsChange mBarBoundsChangeListener;
 
     public DayHeartContentRender(int maxWidth) {
         initPaint();
@@ -64,6 +64,7 @@ public class DayHeartContentRender implements ChartRender {
     }
 
     public void setDayHeartData(DayHeartData dayHeartData) {
+
         mDayHeartData = dayHeartData;
 
         initBarBounds();
@@ -72,6 +73,13 @@ public class DayHeartContentRender implements ChartRender {
 
 
     private void initBarBounds() {
+        if (mDayHeartData == null || mDayHeartData.isEmpty()) {
+            mBarBoundsArray = null;
+            onBarBoundsChange();
+            mDashLineRender.emptyPath();
+            return;
+        }
+
         int height = (int) mSelfBounds.height();
 
         if (height == 0)
@@ -91,7 +99,7 @@ public class DayHeartContentRender implements ChartRender {
         float tmpLeft = mSelfBounds.left + (cellWidth - width) / 2f;
 
 
-        float maxValue = Collections.max(yList);
+        float maxValue = mDayHeartData.maxYValue();
 
         mBarBoundsArray = new RectF[size];
 
@@ -109,5 +117,22 @@ public class DayHeartContentRender implements ChartRender {
 
         mDashLineRender.computePath(mBarBoundsArray);
 
+        onBarBoundsChange();
     }
+
+    private void onBarBoundsChange() {
+        if (mBarBoundsChangeListener != null) {
+            mBarBoundsChangeListener.onBarBoundsChange(mBarBoundsArray);
+        }
+    }
+
+
+    public void setBarBoundsChangeListener(BarBoundsChange barBoundsChangeListener) {
+        mBarBoundsChangeListener = barBoundsChangeListener;
+    }
+
+    public static interface BarBoundsChange {
+        void onBarBoundsChange(RectF[] barBounds);
+    }
+
 }

@@ -2,6 +2,7 @@ package rqg.fantasy.newchart.chart.day;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.view.View;
 import com.rqg.common.util.DisplayUtil;
 
 import rqg.fantasy.newchart.chart.ChartRender;
-import rqg.fantasy.newchart.chart.render.XAxisRender;
+import rqg.fantasy.newchart.chart.render.BarXAxisRender;
 import rqg.fantasy.newchart.chart.render.YAxisRender;
 
 /**
@@ -22,7 +23,7 @@ public class DayHeartChart extends View {
     protected ChartRender mIndicatorRender;
 
     protected DayHeartContentRender mContentRender;
-    protected XAxisRender mXAxisRender;
+    protected BarXAxisRender mBarXAxisRender;
     protected YAxisRender mYAxisRender;
 
 
@@ -46,8 +47,15 @@ public class DayHeartChart extends View {
         int maxWidth = (int) DisplayUtil.dp2Px(getContext(), 10);
         mTopPadding = (int) DisplayUtil.dp2Px(getContext(), 30);
         mYAxisRender = new YAxisRender();
-        mXAxisRender = new XAxisRender(maxWidth);
+        mBarXAxisRender = new BarXAxisRender();
         mContentRender = new DayHeartContentRender(maxWidth);
+
+        mContentRender.setBarBoundsChangeListener(new DayHeartContentRender.BarBoundsChange() {
+            @Override
+            public void onBarBoundsChange(RectF[] barBounds) {
+                mBarXAxisRender.setBarBoundsArray(barBounds);
+            }
+        });
     }
 
 
@@ -55,43 +63,30 @@ public class DayHeartChart extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        mXAxisRender.onSizeChange((int) mYAxisRender.getSelfBounds().right, mTopPadding, getMeasuredWidth(), getMeasuredHeight());
+        mBarXAxisRender.onSizeChange((int) mYAxisRender.getSelfBounds().right, mTopPadding, getMeasuredWidth(), getMeasuredHeight());
 
 
-        mYAxisRender.onSizeChange(0, mTopPadding, getMeasuredWidth(), (int) mXAxisRender.getSelfBounds().top);
+        mYAxisRender.onSizeChange(0, mTopPadding, getMeasuredWidth(), (int) mBarXAxisRender.getSelfBounds().top);
 
         Log.d(TAG, "onMeasure: " + mYAxisRender.getSelfBounds().right);
 
-        mContentRender.onSizeChange((int) mYAxisRender.getSelfBounds().right, mTopPadding, getMeasuredWidth(), (int) mXAxisRender.getSelfBounds().top);
+        mContentRender.onSizeChange((int) mYAxisRender.getSelfBounds().right, mTopPadding, getMeasuredWidth(), (int) mBarXAxisRender.getSelfBounds().top);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mYAxisRender.draw(canvas);
-        mXAxisRender.draw(canvas);
+        mBarXAxisRender.draw(canvas);
         mContentRender.draw(canvas);
     }
 
-
-    public YAxisRender getYAxisRender() {
-        return mYAxisRender;
-    }
-
-    public void setYAxisRender(YAxisRender YAxisRender) {
-        mYAxisRender = YAxisRender;
-    }
-//
-//
-//    public DayHeartData getDayHeartData() {
-//        return mDayHeartData;
-//    }
 
     public void setDayHeartData(DayHeartData dayHeartData) {
         mDayHeartData = dayHeartData;
         mYAxisRender.setMaxYValue(mDayHeartData.maxYValue());
         mContentRender.setDayHeartData(mDayHeartData);
-        mXAxisRender.setDataSize(dayHeartData.getyValueList().size());
+
 
         invalidate();
     }

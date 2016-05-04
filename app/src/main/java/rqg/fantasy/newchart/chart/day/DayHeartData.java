@@ -11,6 +11,10 @@ public class DayHeartData extends ChartData<Integer> {
 
     @Override
     public int maxYValue() {
-        return Collections.max(yValueList);
+        if (isEmpty())
+            return 0;
+        else {
+            return Collections.max(yValueList);
+        }
     }
 }

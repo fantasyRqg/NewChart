@@ -38,7 +38,13 @@ abstract public class ChartData<T> {
         return xLableList;
     }
 
+
     public void setxLableList(ArrayList<String> xLableList) {
         this.xLableList = xLableList;
+    }
+
+
+    public boolean isEmpty() {
+        return yValueList == null || yValueList.isEmpty();
     }
 }

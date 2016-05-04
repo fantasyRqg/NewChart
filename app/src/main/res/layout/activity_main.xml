@@ -16,6 +16,13 @@
         android:layout_height="400dp"
         android:background="@color/fantasy"/>
 
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -51,6 +51,11 @@ public class DashLineRender {
 
     }
 
+    public void emptyPath() {
+        mSolidPath.rewind();
+        mDashPath.rewind();
+    }
+
     public void computePath(RectF[] barBoundsArray) {
         ChartPoint[] points = new ChartPoint[barBoundsArray.length];
 
