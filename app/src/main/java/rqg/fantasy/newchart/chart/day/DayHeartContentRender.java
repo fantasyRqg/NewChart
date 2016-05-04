@@ -163,7 +163,7 @@ public class DayHeartContentRender implements ChartRender {
             if (index >= 0 && index < mBarBoundsArray.length) {
                 rf = bounds[index];
             }
-            mBarBoundsChangeListener.onBarSelected(rf);
+            mBarBoundsChangeListener.onBarSelected(rf, index);
 
         }
     }
@@ -190,7 +190,7 @@ public class DayHeartContentRender implements ChartRender {
     public static interface BarBoundsChange {
         void onBarBoundsChange(RectF[] barBounds);
 
-        void onBarSelected(RectF rectF);
+        void onBarSelected(RectF rectF, int index);
     }
 
 }

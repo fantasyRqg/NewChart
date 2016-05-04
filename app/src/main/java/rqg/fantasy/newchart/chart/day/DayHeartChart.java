@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.rqg.common.util.DisplayUtil;
 
+import rqg.fantasy.newchart.chart.MarkerView;
 import rqg.fantasy.newchart.chart.render.BarXAxisRender;
 import rqg.fantasy.newchart.chart.render.IndicatorRender;
 import rqg.fantasy.newchart.chart.render.YAxisRender;
@@ -59,8 +60,8 @@ public class DayHeartChart extends View {
             }
 
             @Override
-            public void onBarSelected(RectF rectF) {
-                mIndicatorRender.setSelectedBounds(rectF);
+            public void onBarSelected(RectF rectF, int index) {
+                mIndicatorRender.setSelectedBounds(rectF, index);
             }
         });
     }
@@ -105,7 +106,11 @@ public class DayHeartChart extends View {
         mYAxisRender.setMaxYValue(mDayHeartData.maxYValue());
         mContentRender.setDayHeartData(mDayHeartData);
 
-
         invalidate();
+    }
+
+
+    public void setMarkerView(MarkerView markerView) {
+        mIndicatorRender.setMarkerView(markerView);
     }
 }

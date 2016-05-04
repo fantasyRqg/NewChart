@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 
 import rqg.fantasy.newchart.chart.ChartRender;
+import rqg.fantasy.newchart.chart.MarkerView;
 
 /**
  * *Created by rqg on 5/4/16.
@@ -25,6 +26,8 @@ public class IndicatorRender implements ChartRender {
 
     private int mWhite = Color.parseColor("#FFFFFFFF");
     private int mTransparent = Color.parseColor("#00FFFFFF");
+    private MarkerView mMarkerView;
+
 
     public IndicatorRender() {
         mPaint.setColor(mIndicatorColor);
@@ -37,7 +40,13 @@ public class IndicatorRender implements ChartRender {
             if (mLinearGradient != null) {
                 mPaint.setShader(mLinearGradient);
             }
-            canvas.drawLine(mSelectedBounds.centerX(), mTopLine, mSelectedBounds.centerX(), mSelectedBounds.bottom, mPaint);
+
+            float x = mSelectedBounds.centerX();
+            canvas.drawLine(x, mTopLine, x, mSelectedBounds.bottom, mPaint);
+
+            if (mMarkerView != null) {
+                mMarkerView.draw(canvas, x, mTopLine, mSelfBounds);
+            }
         }
     }
 
@@ -53,8 +62,11 @@ public class IndicatorRender implements ChartRender {
     }
 
 
-    public void setSelectedBounds(RectF selectedBounds) {
+    public void setSelectedBounds(RectF selectedBounds, int index) {
         mSelectedBounds = selectedBounds;
+        if (mMarkerView != null) {
+            mMarkerView.refreshMarkerView(index);
+        }
     }
 
 
@@ -64,5 +76,10 @@ public class IndicatorRender implements ChartRender {
 
     public void setTopLine(float topLine) {
         mTopLine = topLine;
+    }
+
+
+    public void setMarkerView(MarkerView markerView) {
+        mMarkerView = markerView;
     }
 }

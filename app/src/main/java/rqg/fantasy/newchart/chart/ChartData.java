@@ -20,6 +20,9 @@ abstract public class ChartData<T> {
     }
 
     public T getY(int i) {
+        if (yValueList == null || yValueList.size() <= i || i < 0) {
+            return null;
+        }
         return yValueList.get(i);
     }
 

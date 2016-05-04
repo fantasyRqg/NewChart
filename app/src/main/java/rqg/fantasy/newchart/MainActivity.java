@@ -1,15 +1,19 @@
 package rqg.fantasy.newchart;
 
+import android.content.Context;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import rqg.fantasy.newchart.chart.MarkerView;
 import rqg.fantasy.newchart.chart.day.DayHeartChart;
 import rqg.fantasy.newchart.chart.day.DayHeartData;
 
@@ -19,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private DayHeartChart mDayHeartChart;
     private Random mRandom = new Random(System.currentTimeMillis());
     private AppCompatSeekBar mSeekBar;
+    private DayHeartData mDayHeartData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         mSeekBar.setProgress(24);
         setChartHeartDayData(24);
 
+        mDayHeartChart.setMarkerView(new DayHeartMarkerView(this));
 
     }
 
@@ -79,9 +85,39 @@ public class MainActivity extends AppCompatActivity {
 
         dayHeartData.setyValueList(yList);
         mDayHeartChart.setDayHeartData(dayHeartData);
+
+        mDayHeartData = dayHeartData;
     }
 
     public void refresh(View view) {
         setChartHeartDayData(mSeekBar.getProgress());
+    }
+
+
+    public class DayHeartMarkerView extends MarkerView {
+
+        TextView mTextView;
+
+        public DayHeartMarkerView(Context context) {
+            super(context, R.layout.mark_heart);
+            mTextView = (TextView) findViewById(R.id.heart_value);
+        }
+
+
+        @Override
+        public void refreshContent(int index) {
+            mTextView.setText(String.valueOf(mDayHeartData.getY(index)));
+        }
+
+        @Override
+        public int getXOffset(float translateX, RectF pBounds) {
+            return 0;
+        }
+
+        @Override
+        public int getYOffset(float translateY, RectF pBounds) {
+
+            return -getHeight() / 2;
+        }
     }
 }
