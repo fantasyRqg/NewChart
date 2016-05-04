@@ -8,7 +8,6 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.util.Log;
 
 import rqg.fantasy.newchart.chart.ChartPoint;
 
@@ -67,7 +66,6 @@ public class DashLineRender {
     }
 
     public void computePath(ChartPoint[] pointArray, ChartPoint first) {
-        Log.i(TAG, "computePath: start");
         mSolidPath.reset();
         mDashPath.reset();
 
@@ -79,29 +77,24 @@ public class DashLineRender {
 
             if (i == 0) {
                 if (cp == null) {
-                    Log.d(TAG, "computePath: cp == null " + first);
                     mSolidPath.moveTo(first.x, first.y);
                     mDashPath.moveTo(first.x, first.y);
                 } else {
-                    Log.d(TAG, "computePath: init path " + cp);
                     mSolidPath.moveTo(cp.x, cp.y);
                     mDashPath.moveTo(cp.x, cp.y);
                 }
             } else {
                 if (cp == null) {
                     if (lastCP != null) {
-                        Log.d(TAG, "computePath: move dash " + lastCP);
                         mDashPath.moveTo(lastCP.x, lastCP.y);
                     }
                 } else {
                     if (lastCP == null) {
-                        Log.d(TAG, "computePath: line dash ,move solid " + cp);
                         mDashPath.lineTo(cp.x, cp.y);
                     } else if (llCp == null) {
                         mSolidPath.moveTo(lastCP.x, lastCP.y);
                         mSolidPath.lineTo(cp.x, cp.y);
                     } else {
-                        Log.d(TAG, "computePath: line solid " + cp);
                         mSolidPath.lineTo(cp.x, cp.y);
                     }
                 }

@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +14,6 @@ import rqg.fantasy.newchart.chart.ChartRender;
  * *Created by rqg on 5/3/16.
  */
 public class DayHeartContentRender implements ChartRender {
-    private static final String TAG = "DayHeartContentRender";
     protected DayHeartData mDayHeartData;
     protected RectF mSelfBounds = new RectF();
     private int mMaxWidth = 0;
@@ -46,7 +44,6 @@ public class DayHeartContentRender implements ChartRender {
         if (mBarBoundsArray == null)
             return;
         for (RectF b : mBarBoundsArray) {
-            Log.d(TAG, "draw: " + b);
             canvas.drawRect(b, mContentPaint);
         }
 

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setChartHeartDayData() {
         DayHeartData dayHeartData = new DayHeartData();
-        int dataSize = 15;
+        int dataSize = 2;
         ArrayList<Integer> yList = new ArrayList<>(dataSize);
         for (int i = 0; i < dataSize; i++) {
             yList.add(mRandom.nextBoolean() ? 0 : mRandom.nextInt(300));

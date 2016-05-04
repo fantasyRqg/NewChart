@@ -14,8 +14,8 @@ public class XAxisRender implements ChartRender {
 
     protected RectF mBounds = new RectF();
     protected RectF mSelfBounds = new RectF();
-    private int mMaxBarWidth;
-    private int mDataSize = 0;
+    protected int mMaxBarWidth;
+    protected int mDataSize = 0;
 
 
     public XAxisRender(int maxBarWidth) {
@@ -37,6 +37,7 @@ public class XAxisRender implements ChartRender {
 
     private void initPaint() {
         mValuePaint.setTextSize(25);
+        mValuePaint.setStrokeWidth(10);
     }
 
     @Override
