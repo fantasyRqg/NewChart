@@ -5,12 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.rqg.common.util.DisplayUtil;
 
-import rqg.fantasy.newchart.chart.ChartRender;
 import rqg.fantasy.newchart.chart.render.BarXAxisRender;
+import rqg.fantasy.newchart.chart.render.IndicatorRender;
 import rqg.fantasy.newchart.chart.render.YAxisRender;
 
 /**
@@ -20,7 +21,7 @@ public class DayHeartChart extends View {
     private static final String TAG = "DayHeartChart";
 
 
-    protected ChartRender mIndicatorRender;
+    protected IndicatorRender mIndicatorRender;
 
     protected DayHeartContentRender mContentRender;
     protected BarXAxisRender mBarXAxisRender;
@@ -49,11 +50,17 @@ public class DayHeartChart extends View {
         mYAxisRender = new YAxisRender();
         mBarXAxisRender = new DayHeartXAxisRender();
         mContentRender = new DayHeartContentRender(maxWidth);
+        mIndicatorRender = new IndicatorRender();
 
         mContentRender.setBarBoundsChangeListener(new DayHeartContentRender.BarBoundsChange() {
             @Override
             public void onBarBoundsChange(RectF[] barBounds) {
                 mBarXAxisRender.setBarBoundsArray(barBounds);
+            }
+
+            @Override
+            public void onBarSelected(RectF rectF) {
+                mIndicatorRender.setSelectedBounds(rectF);
             }
         });
     }
@@ -65,12 +72,14 @@ public class DayHeartChart extends View {
 
         mBarXAxisRender.onSizeChange((int) mYAxisRender.getSelfBounds().right, mTopPadding, getMeasuredWidth(), getMeasuredHeight());
 
-
         mYAxisRender.onSizeChange(0, mTopPadding, getMeasuredWidth(), (int) mBarXAxisRender.getSelfBounds().top);
 
         Log.d(TAG, "onMeasure: " + mYAxisRender.getSelfBounds().right);
 
         mContentRender.onSizeChange((int) mYAxisRender.getSelfBounds().right, mTopPadding, getMeasuredWidth(), (int) mBarXAxisRender.getSelfBounds().top);
+
+        mIndicatorRender.onSizeChange(0, 0, getMeasuredWidth(), getMeasuredHeight());
+        mIndicatorRender.setTopLine(mYAxisRender.getSelfBounds().top);
     }
 
     @Override
@@ -79,8 +88,17 @@ public class DayHeartChart extends View {
         mYAxisRender.draw(canvas);
         mBarXAxisRender.draw(canvas);
         mContentRender.draw(canvas);
+        mIndicatorRender.draw(canvas);
     }
 
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mContentRender.onTouch(event.getX(), event.getY())) {
+            invalidate();
+        }
+        return true;
+    }
 
     public void setDayHeartData(DayHeartData dayHeartData) {
         mDayHeartData = dayHeartData;

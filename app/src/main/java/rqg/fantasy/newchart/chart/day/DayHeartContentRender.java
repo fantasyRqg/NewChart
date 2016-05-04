@@ -26,6 +26,10 @@ public class DayHeartContentRender implements ChartRender {
 
     private BarBoundsChange mBarBoundsChangeListener;
 
+    private int mBarColor = Color.parseColor("#3c123a12");
+    private int mSelectedColor = Color.parseColor("#88123a12");
+    private int mSelectedIndex = -1;
+
     public DayHeartContentRender(int maxWidth) {
         initPaint();
 
@@ -35,7 +39,7 @@ public class DayHeartContentRender implements ChartRender {
     }
 
     private void initPaint() {
-        mContentPaint.setColor(Color.parseColor("#3c123a12"));
+        mContentPaint.setColor(mBarColor);
     }
 
     @Override
@@ -43,12 +47,18 @@ public class DayHeartContentRender implements ChartRender {
 
         if (mBarBoundsArray == null)
             return;
-        for (RectF b : mBarBoundsArray) {
-            canvas.drawRect(b, mContentPaint);
+        for (int i = 0; i < mBarBoundsArray.length; i++) {
+            RectF b = mBarBoundsArray[i];
+            if (i == mSelectedIndex) {
+                mContentPaint.setColor(mSelectedColor);
+                canvas.drawRect(b, mContentPaint);
+                mContentPaint.setColor(mBarColor);
+            } else {
+                canvas.drawRect(b, mContentPaint);
+            }
         }
 
         mDashLineRender.draw(canvas);
-
     }
 
     @Override
@@ -66,7 +76,7 @@ public class DayHeartContentRender implements ChartRender {
     public void setDayHeartData(DayHeartData dayHeartData) {
 
         mDayHeartData = dayHeartData;
-
+        setSelectedIndex(-1);
         initBarBounds();
 
     }
@@ -127,12 +137,60 @@ public class DayHeartContentRender implements ChartRender {
     }
 
 
+    public int getSelectedIndex() {
+        return mSelectedIndex;
+    }
+
+    public boolean setSelectedIndex(int selectedIndex) {
+        if (mSelectedIndex == selectedIndex) {
+            return false;
+        }
+
+        mSelectedIndex = selectedIndex;
+
+        onBarSelected(mSelectedIndex);
+
+        return true;
+    }
+
+
+    private void onBarSelected(int index) {
+        RectF[] bounds = mBarBoundsArray;
+
+        if (mBarBoundsChangeListener != null) {
+            RectF rf = null;
+
+            if (index >= 0 && index < mBarBoundsArray.length) {
+                rf = bounds[index];
+            }
+            mBarBoundsChangeListener.onBarSelected(rf);
+
+        }
+    }
+
+    public boolean onTouch(float x, float y) {
+        RectF[] bounds = mBarBoundsArray;
+        if (bounds == null)
+            return setSelectedIndex(-1);
+
+        float left = mBarBoundsArray[0].left;
+        float right = mBarBoundsArray[mBarBoundsArray.length - 1].right;
+
+        float cellWidth = (right - left) / mBarBoundsArray.length;
+
+        int index = (int) ((x - left) / cellWidth);
+
+        return setSelectedIndex(index);
+    }
+
     public void setBarBoundsChangeListener(BarBoundsChange barBoundsChangeListener) {
         mBarBoundsChangeListener = barBoundsChangeListener;
     }
 
     public static interface BarBoundsChange {
         void onBarBoundsChange(RectF[] barBounds);
+
+        void onBarSelected(RectF rectF);
     }
 
 }
