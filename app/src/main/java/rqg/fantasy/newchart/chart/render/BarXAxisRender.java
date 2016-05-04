@@ -18,7 +18,11 @@ public class BarXAxisRender implements ChartRender {
     protected RectF mSelfBounds = new RectF();
 
 
-    private Path mXAxisLine = new Path();
+    protected Path mXAxisLine = new Path();
+    protected static final int TEXT_PADDING_BOTTOM = 50;
+    protected static final int TEXT_PADDING_TOP = 15;
+
+    protected Paint mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public BarXAxisRender() {
 
@@ -27,26 +31,20 @@ public class BarXAxisRender implements ChartRender {
         mSelfBounds.set(mSelfBounds.left
                 , mSelfBounds.top,
                 mSelfBounds.right
-                , mSelfBounds.top + TEXT_PADDING_BOTTOM + TEXT_PADDING_TOP + mValuePaint.getTextSize());
+                , mSelfBounds.top + TEXT_PADDING_BOTTOM + TEXT_PADDING_TOP + mLinePaint.getTextSize());
     }
-
-    private static final int TEXT_PADDING_BOTTOM = 50;
-    private static final int TEXT_PADDING_TOP = 15;
-
-    private Paint mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
 
     private void initPaint() {
-        mValuePaint.setTextSize(25);
-        mValuePaint.setStrokeWidth(10);
-        mValuePaint.setColor(Color.WHITE);
-        mValuePaint.setStyle(Paint.Style.STROKE);
+        mLinePaint.setStrokeWidth(2);
+        mLinePaint.setColor(Color.WHITE);
+        mLinePaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     public void draw(Canvas canvas) {
         if (mXAxisLine != null) {
-            canvas.drawPath(mXAxisLine, mValuePaint);
+            canvas.drawPath(mXAxisLine, mLinePaint);
         }
     }
 

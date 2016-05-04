@@ -44,10 +44,10 @@ public class DayHeartChart extends View {
         super(context, attrs, defStyleAttr);
 
 
-        int maxWidth = (int) DisplayUtil.dp2Px(getContext(), 10);
+        int maxWidth = (int) DisplayUtil.dp2Px(getContext(), 20);
         mTopPadding = (int) DisplayUtil.dp2Px(getContext(), 30);
         mYAxisRender = new YAxisRender();
-        mBarXAxisRender = new BarXAxisRender();
+        mBarXAxisRender = new DayHeartXAxisRender();
         mContentRender = new DayHeartContentRender(maxWidth);
 
         mContentRender.setBarBoundsChangeListener(new DayHeartContentRender.BarBoundsChange() {
