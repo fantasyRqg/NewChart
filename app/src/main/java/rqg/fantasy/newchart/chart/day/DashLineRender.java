@@ -22,7 +22,7 @@ public class DashLineRender {
     private CornerPathEffect mCornerPathEffect;
     private ComposePathEffect mDashPathEffect;
 
-    private float mPathWidth = 8;
+    private float mPathWidth = 12;
 
 
     private Path mSolidPath = new Path(), mDashPath = new Path();
@@ -36,7 +36,7 @@ public class DashLineRender {
 
         mCornerPathEffect = new CornerPathEffect(1f);
 
-        DashPathEffect dpe = new DashPathEffect(new float[]{10, 15}, 0);
+        DashPathEffect dpe = new DashPathEffect(new float[]{12, 24}, 0);
         mDashPathEffect = new ComposePathEffect(mCornerPathEffect, dpe);
     }
 
