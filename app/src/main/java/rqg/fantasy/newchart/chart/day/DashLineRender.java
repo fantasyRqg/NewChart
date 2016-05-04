@@ -31,12 +31,12 @@ public class DashLineRender {
         mLinePaint.setColor(Color.WHITE);
         mLinePaint.setStrokeWidth(mPathWidth);
         mLinePaint.setStyle(Paint.Style.STROKE);
-        mLinePaint.setStrokeCap(Paint.Cap.ROUND);
+//        mLinePaint.setStrokeCap(Paint.Cap.ROUND);
 
 
         mCornerPathEffect = new CornerPathEffect(1f);
 
-        DashPathEffect dpe = new DashPathEffect(new float[]{12, 24}, 0);
+        DashPathEffect dpe = new DashPathEffect(new float[]{18, 12}, 0);
         mDashPathEffect = new ComposePathEffect(mCornerPathEffect, dpe);
     }
 
