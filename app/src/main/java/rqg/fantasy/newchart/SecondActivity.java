@@ -1,14 +1,10 @@
 package rqg.fantasy.newchart;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,24 +13,25 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import rqg.fantasy.newchart.chart.MarkerView;
-import rqg.fantasy.newchart.chart.bhr.BhrHeartChart;
+import rqg.fantasy.newchart.chart.day.DayHeartChart;
 import rqg.fantasy.newchart.chart.day.DayHeartData;
 
-public class MainActivity extends AppCompatActivity {
-
-
-    private BhrHeartChart mBhrHeartChart;
+/**
+ * *Created by rqg on 5/4/16.
+ */
+public class SecondActivity extends AppCompatActivity {
+    private DayHeartChart mDayHeartChart;
     private Random mRandom = new Random(System.currentTimeMillis());
     private AppCompatSeekBar mSeekBar;
     private DayHeartData mDayHeartData;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setTitle("BHR Heart Chart");
+        setContentView(R.layout.activity_second);
 
-        mBhrHeartChart = (BhrHeartChart) findViewById(R.id.heart_chart);
+        setTitle("Day Heart Chart");
+        mDayHeartChart = (DayHeartChart) findViewById(R.id.heart_chart);
 
         mSeekBar = (AppCompatSeekBar) findViewById(R.id.seek_bar);
 
@@ -62,23 +59,8 @@ public class MainActivity extends AppCompatActivity {
         mSeekBar.setProgress(24);
         setChartHeartDayData(24);
 
-        mBhrHeartChart.setMarkerView(new DayHeartMarkerView(this));
+        mDayHeartChart.setMarkerView(new DayHeartMarkerView(this));
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        menu.add(0, 0, 0, "BHR");
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        Intent intent = new Intent(this, SecondActivity.class);
-        startActivity(intent);
-        return true;
     }
 
 
@@ -91,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         dayHeartData.setyValueList(yList);
-//        mBhrHeartChart.setBhrHeartData(dayHeartData);
+        mDayHeartChart.setDayHeartData(dayHeartData);
 
         mDayHeartData = dayHeartData;
     }

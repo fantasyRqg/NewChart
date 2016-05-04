@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/orange_bg"
               android:gravity="center_horizontal"
-              android:orientation="vertical"
-              tools:context="rqg.fantasy.newchart.MainActivity">
+              android:orientation="vertical">
 
-    <rqg.fantasy.newchart.chart.bhr.BhrHeartChart
+    <rqg.fantasy.newchart.chart.day.DayHeartChart
         android:id="@+id/heart_chart"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:paddingRight="10dp"
-        />
+        android:paddingRight="10dp"/>
 
 
     <android.support.v7.widget.AppCompatSeekBar

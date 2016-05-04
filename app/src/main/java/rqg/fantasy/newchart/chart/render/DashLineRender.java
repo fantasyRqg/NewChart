@@ -1,4 +1,4 @@
-package rqg.fantasy.newchart.chart.day;
+package rqg.fantasy.newchart.chart.render;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

@@ -7,40 +7,24 @@ import android.graphics.RectF;
 
 import java.util.ArrayList;
 
-import rqg.fantasy.newchart.chart.ChartRender;
+import rqg.fantasy.newchart.chart.render.BaseBarContentRender;
 
 /**
  * *Created by rqg on 5/3/16.
  */
-public class DayHeartContentRender implements ChartRender {
-    protected DayHeartData mDayHeartData;
-    protected RectF mSelfBounds = new RectF();
-    private int mMaxWidth = 0;
+public class DayHeartContentRender extends BaseBarContentRender<DayHeartData> {
 
-    private DashLineRender mDashLineRender;
+    protected Paint mContentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-
-    private RectF[] mBarBoundsArray;
-
-    private Paint mContentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-    private BarBoundsChange mBarBoundsChangeListener;
-
-    private int mBarColor = Color.parseColor("#4CFFFFFF");
-    private int mSelectedColor = Color.parseColor("#99FFFFFF");
-    private int mSelectedIndex = -1;
+    protected int mBarColor = Color.parseColor("#4CFFFFFF");
+    protected int mSelectedColor = Color.parseColor("#99FFFFFF");
 
     public DayHeartContentRender(int maxWidth) {
+        super(maxWidth);
+
         initPaint();
-
-        mMaxWidth = maxWidth;
-
-        mDashLineRender = new DashLineRender();
     }
 
-    private void initPaint() {
-        mContentPaint.setColor(mBarColor);
-    }
 
     @Override
     public void draw(Canvas canvas) {
@@ -61,29 +45,14 @@ public class DayHeartContentRender implements ChartRender {
         mDashLineRender.draw(canvas);
     }
 
-    @Override
-    public void onSizeChange(int left, int top, int right, int bottom) {
-        mSelfBounds.set(left, top, right, bottom);
 
-        setDayHeartData(mDayHeartData);
+    protected void initPaint() {
+        mContentPaint.setColor(mBarColor);
     }
 
     @Override
-    public RectF getSelfBounds() {
-        return mSelfBounds;
-    }
-
-    public void setDayHeartData(DayHeartData dayHeartData) {
-
-        mDayHeartData = dayHeartData;
-        setSelectedIndex(-1);
-        initBarBounds();
-
-    }
-
-
-    private void initBarBounds() {
-        if (mDayHeartData == null || mDayHeartData.isEmpty()) {
+    protected void initBarBounds() {
+        if (mChartData == null || mChartData.isEmpty()) {
             mBarBoundsArray = null;
             onBarBoundsChange();
             mDashLineRender.emptyPath();
@@ -96,7 +65,7 @@ public class DayHeartContentRender implements ChartRender {
             return;
 
 
-        ArrayList<Integer> yList = mDayHeartData.getyValueList();
+        ArrayList<Integer> yList = mChartData.getyValueList();
         int size = yList.size();
 
         float cellWidth = mSelfBounds.width() / size;
@@ -109,7 +78,7 @@ public class DayHeartContentRender implements ChartRender {
         float tmpLeft = mSelfBounds.left + (cellWidth - width) / 2f;
 
 
-        float maxValue = mDayHeartData.maxYValue();
+        float maxValue = mChartData.maxYValue();
 
         mBarBoundsArray = new RectF[size];
 
@@ -129,68 +98,4 @@ public class DayHeartContentRender implements ChartRender {
 
         onBarBoundsChange();
     }
-
-    private void onBarBoundsChange() {
-        if (mBarBoundsChangeListener != null) {
-            mBarBoundsChangeListener.onBarBoundsChange(mBarBoundsArray);
-        }
-    }
-
-
-    public int getSelectedIndex() {
-        return mSelectedIndex;
-    }
-
-    public boolean setSelectedIndex(int selectedIndex) {
-        if (mSelectedIndex == selectedIndex) {
-            return false;
-        }
-
-        mSelectedIndex = selectedIndex;
-
-        onBarSelected(mSelectedIndex);
-
-        return true;
-    }
-
-
-    private void onBarSelected(int index) {
-        RectF[] bounds = mBarBoundsArray;
-
-        if (mBarBoundsChangeListener != null) {
-            RectF rf = null;
-
-            if (index >= 0 && index < mBarBoundsArray.length) {
-                rf = bounds[index];
-            }
-            mBarBoundsChangeListener.onBarSelected(rf, index);
-
-        }
-    }
-
-    public boolean onTouch(float x, float y) {
-        RectF[] bounds = mBarBoundsArray;
-        if (bounds == null)
-            return setSelectedIndex(-1);
-
-        float left = mBarBoundsArray[0].left;
-        float right = mBarBoundsArray[mBarBoundsArray.length - 1].right;
-
-        float cellWidth = (right - left) / mBarBoundsArray.length;
-
-        int index = (int) ((x - left) / cellWidth);
-
-        return setSelectedIndex(index);
-    }
-
-    public void setBarBoundsChangeListener(BarBoundsChange barBoundsChangeListener) {
-        mBarBoundsChangeListener = barBoundsChangeListener;
-    }
-
-    public static interface BarBoundsChange {
-        void onBarBoundsChange(RectF[] barBounds);
-
-        void onBarSelected(RectF rectF, int index);
-    }
-
 }
