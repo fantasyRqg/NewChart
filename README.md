@@ -1,1 +1,3 @@
 # NewChart
+
+![](screenshoots/dayHeartChart.gif)
