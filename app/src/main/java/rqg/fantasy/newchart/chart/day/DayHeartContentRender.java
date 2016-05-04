@@ -26,8 +26,8 @@ public class DayHeartContentRender implements ChartRender {
 
     private BarBoundsChange mBarBoundsChangeListener;
 
-    private int mBarColor = Color.parseColor("#3c123a12");
-    private int mSelectedColor = Color.parseColor("#88123a12");
+    private int mBarColor = Color.parseColor("#4CFFFFFF");
+    private int mSelectedColor = Color.parseColor("#99FFFFFF");
     private int mSelectedIndex = -1;
 
     public DayHeartContentRender(int maxWidth) {

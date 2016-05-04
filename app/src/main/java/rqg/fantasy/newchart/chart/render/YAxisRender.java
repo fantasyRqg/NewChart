@@ -28,8 +28,8 @@ public class YAxisRender implements ChartRender {
     private static final int TEXT_PADDING_LEFT = 10;
 
 
-    private int mDashLineColor = Color.RED;
-    private int mValueColor = Color.BLUE;
+    private int mDashLineColor = Color.parseColor("#99FFFFFF");
+    private int mValueColor = Color.parseColor("#F2FFFFFF");
 
     public YAxisRender() {
         initPaint();

@@ -3,6 +3,7 @@ package rqg.fantasy.newchart;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -13,6 +14,7 @@ import rqg.fantasy.newchart.chart.day.DayHeartChart;
 import rqg.fantasy.newchart.chart.day.DayHeartData;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     private DayHeartChart mDayHeartChart;
     private Random mRandom = new Random(System.currentTimeMillis());
@@ -27,10 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
         mSeekBar = (AppCompatSeekBar) findViewById(R.id.seek_bar);
 
-
-        mSeekBar.setMax(500);
-
-        mSeekBar.setProgress(12);
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -50,10 +48,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mSeekBar.setMax(500);
+
+        mSeekBar.setProgress(24);
+        setChartHeartDayData(24);
+
+
     }
 
 
     private void setChartHeartDayData(int dataSize) {
+        Log.d(TAG, "setChartHeartDayData: " + dataSize);
         DayHeartData dayHeartData = new DayHeartData();
 
         ArrayList<Integer> yList = new ArrayList<>(dataSize);
