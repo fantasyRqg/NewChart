@@ -28,11 +28,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void setChartHeartDayData() {
         DayHeartData dayHeartData = new DayHeartData();
-        int dataSize = 10;
+        int dataSize = 15;
         ArrayList<Integer> yList = new ArrayList<>(dataSize);
         for (int i = 0; i < dataSize; i++) {
-            yList.add(mRandom.nextInt(300) / 50);
+            yList.add(mRandom.nextBoolean() ? 0 : mRandom.nextInt(300));
         }
+
+//        yList.add(120);
+//        yList.add(160);
+//        yList.add(0);
+//        yList.add(110);
+//        yList.add(0);
+//        yList.add(10);
+//        yList.add(0);
+//        yList.add(100);
+//        yList.add(0);
+//        yList.add(10);
 
         dayHeartData.setyValueList(yList);
         mDayHeartChart.setDayHeartData(dayHeartData);

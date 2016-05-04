@@ -20,6 +20,8 @@ public class DayHeartContentRender implements ChartRender {
     protected RectF mSelfBounds = new RectF();
     private int mMaxWidth = 0;
 
+    private DashLineRender mDashLineRender;
+
 
     private RectF[] mBarBoundsArray;
 
@@ -30,6 +32,8 @@ public class DayHeartContentRender implements ChartRender {
         initPaint();
 
         mMaxWidth = maxWidth;
+
+        mDashLineRender = new DashLineRender();
     }
 
     private void initPaint() {
@@ -45,6 +49,9 @@ public class DayHeartContentRender implements ChartRender {
             Log.d(TAG, "draw: " + b);
             canvas.drawRect(b, mContentPaint);
         }
+
+        mDashLineRender.draw(canvas);
+
     }
 
     @Override
@@ -98,10 +105,12 @@ public class DayHeartContentRender implements ChartRender {
             int v = yList.get(i);
             RectF bounds = new RectF(tmp);
             bounds.top = bounds.bottom - v / maxValue * height;
-
-
             tmp.offset(cellWidth, 0);
             mBarBoundsArray[i] = bounds;
+
         }
+
+        mDashLineRender.computePath(mBarBoundsArray);
+
     }
 }
