@@ -7,12 +7,12 @@ import android.graphics.RectF;
 
 import java.util.ArrayList;
 
-import rqg.fantasy.newchart.chart.render.BaseBarContentRender;
+import rqg.fantasy.newchart.chart.render.BaseBarDashLineContentRender;
 
 /**
  * *Created by rqg on 5/3/16.
  */
-public class DayHeartContentRender extends BaseBarContentRender<DayHeartData> {
+public class DayHeartContentRender extends BaseBarDashLineContentRender<DayHeartData> {
 
     protected Paint mContentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -51,14 +51,7 @@ public class DayHeartContentRender extends BaseBarContentRender<DayHeartData> {
     }
 
     @Override
-    protected void initBarBounds() {
-        if (mChartData == null || mChartData.isEmpty()) {
-            mBarBoundsArray = null;
-            onBarBoundsChange();
-            mDashLineRender.emptyPath();
-            return;
-        }
-
+    protected void initBarBoundsAndDashLine() {
         int height = (int) mSelfBounds.height();
 
         if (height == 0)
@@ -68,12 +61,9 @@ public class DayHeartContentRender extends BaseBarContentRender<DayHeartData> {
         ArrayList<Integer> yList = mChartData.getyValueList();
         int size = yList.size();
 
-        float cellWidth = mSelfBounds.width() / size;
-        float width = cellWidth * 0.8f;
 
-        if (width > mMaxWidth) {
-            width = mMaxWidth;
-        }
+        float cellWidth = mSelfBounds.width() / size;
+        float width = getBarWidth(cellWidth);
 
         float tmpLeft = mSelfBounds.left + (cellWidth - width) / 2f;
 
@@ -96,6 +86,5 @@ public class DayHeartContentRender extends BaseBarContentRender<DayHeartData> {
 
         mDashLineRender.computePath(mBarBoundsArray);
 
-        onBarBoundsChange();
     }
 }

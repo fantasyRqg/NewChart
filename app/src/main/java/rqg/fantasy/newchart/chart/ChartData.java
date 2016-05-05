@@ -37,7 +37,7 @@ abstract public class ChartData<T> {
         this.yValueList = yValueList;
     }
 
-    public ArrayList<String> getxLableList() {
+    public ArrayList<String> getxLabelList() {
         return xLableList;
     }
 

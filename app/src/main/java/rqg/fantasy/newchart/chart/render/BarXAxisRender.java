@@ -6,17 +6,18 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
+import rqg.fantasy.newchart.chart.ChartData;
 import rqg.fantasy.newchart.chart.ChartRender;
 
 
 /**
  * *Created by rqg on 5/3/16.
  */
-public class BarXAxisRender implements ChartRender {
+public class BarXAxisRender<T extends ChartData> implements ChartRender {
 
     protected RectF mBounds = new RectF();
     protected RectF mSelfBounds = new RectF();
-
+    protected T mChartData;
 
     protected Path mXAxisLine = new Path();
     protected static final int TEXT_PADDING_BOTTOM = 50;
@@ -62,10 +63,14 @@ public class BarXAxisRender implements ChartRender {
         if (barBoundsArray == null)
             return;
         for (RectF rf : barBoundsArray) {
-            mXAxisLine.moveTo(rf.left, rf.bottom);
-            mXAxisLine.lineTo(rf.right, rf.bottom);
+            mXAxisLine.moveTo(rf.left, mSelfBounds.top);
+            mXAxisLine.lineTo(rf.right, mSelfBounds.top);
         }
 
+    }
+
+    public void setChartData(T chartData) {
+        mChartData = chartData;
     }
 
     @Override

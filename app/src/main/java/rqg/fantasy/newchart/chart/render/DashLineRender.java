@@ -41,6 +41,15 @@ public class DashLineRender {
     }
 
 
+    public float getPathWidth() {
+        return mPathWidth;
+    }
+
+    public void setPathWidth(float pathWidth) {
+        mPathWidth = pathWidth;
+        mLinePaint.setStrokeWidth(mPathWidth);
+    }
+
     public void draw(Canvas canvas) {
         mLinePaint.setPathEffect(mCornerPathEffect);
         canvas.drawPath(mSolidPath, mLinePaint);

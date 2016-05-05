@@ -1,21 +1,23 @@
-package rqg.fantasy.newchart.chart.day;
+package rqg.fantasy.newchart.chart.bhr;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import java.util.ArrayList;
+
 import rqg.fantasy.newchart.chart.render.BarXAxisRender;
 
 /**
- * *Created by rqg on 5/4/16.
+ * *Created by rqg on 5/5/16.
  */
-public class DayHeartXAxisRender extends BarXAxisRender<DayHeartData> {
+public class BhrXAxisRender extends BarXAxisRender<BhrHeartData> {
 
     protected Paint mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    protected float mLeftBound, mRightBound;
+    protected RectF[] mBarBoundsArray;
 
-    public DayHeartXAxisRender() {
+    public BhrXAxisRender() {
         super();
 
         initPaint();
@@ -24,23 +26,19 @@ public class DayHeartXAxisRender extends BarXAxisRender<DayHeartData> {
     protected void initPaint() {
         mValuePaint.setTextSize(20);
         mValuePaint.setColor(Color.WHITE);
+        mValuePaint.setTextAlign(Paint.Align.CENTER);
     }
 
 
     @Override
     public void setBarBoundsArray(RectF[] barBoundsArray) {
         super.setBarBoundsArray(barBoundsArray);
-        if (barBoundsArray != null && barBoundsArray.length >= 3) {
-            mLeftBound = barBoundsArray[0].left;
-            mRightBound = barBoundsArray[barBoundsArray.length - 1].right;
-        }
+        mBarBoundsArray = barBoundsArray;
     }
 
     @Override
     public void onSizeChange(int left, int top, int right, int bottom) {
         super.onSizeChange(left, top, right, bottom);
-        mLeftBound = left;
-        mRightBound = right;
     }
 
     @Override
@@ -49,12 +47,15 @@ public class DayHeartXAxisRender extends BarXAxisRender<DayHeartData> {
 
 
         float y = mSelfBounds.top + TEXT_PADDING_TOP + mValuePaint.getTextSize();
+        ArrayList<String> labelList = mChartData.getxLabelList();
+        if (labelList != null && mBarBoundsArray != null) {
+            int i = 0;
 
-        mValuePaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText("00:00", mLeftBound, y, mValuePaint);
-        mValuePaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("12:00", (mLeftBound + mRightBound) / 2f, y, mValuePaint);
-        mValuePaint.setTextAlign(Paint.Align.RIGHT);
-        canvas.drawText("23:59", mRightBound, y, mValuePaint);
+            while (labelList.size() > i && mBarBoundsArray.length > i) {
+                canvas.drawText(labelList.get(i), mBarBoundsArray[i].centerX(), y, mValuePaint);
+                i++;
+            }
+
+        }
     }
 }

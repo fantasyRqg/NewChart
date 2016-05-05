@@ -42,7 +42,7 @@ public class IndicatorRender implements ChartRender {
             }
 
             float x = mSelectedBounds.centerX();
-            canvas.drawLine(x, mTopLine, x, mSelectedBounds.bottom, mPaint);
+            canvas.drawLine(x, mTopLine, x, mSelfBounds.bottom, mPaint);
 
             if (mMarkerView != null) {
                 mMarkerView.draw(canvas, x, mTopLine, mSelfBounds);
@@ -64,6 +64,11 @@ public class IndicatorRender implements ChartRender {
 
     public void setSelectedBounds(RectF selectedBounds, int index) {
         mSelectedBounds = selectedBounds;
+
+        if (selectedBounds == null) {
+            return;
+        }
+
         if (mMarkerView != null) {
             mMarkerView.refreshMarkerView(index);
         }

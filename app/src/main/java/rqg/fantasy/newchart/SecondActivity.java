@@ -73,7 +73,7 @@ public class SecondActivity extends AppCompatActivity {
         }
 
         dayHeartData.setyValueList(yList);
-        mDayHeartChart.setDayHeartData(dayHeartData);
+        mDayHeartChart.setChartData(dayHeartData);
 
         mDayHeartData = dayHeartData;
     }

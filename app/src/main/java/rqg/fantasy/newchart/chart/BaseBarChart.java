@@ -11,7 +11,7 @@ import com.rqg.common.util.DisplayUtil;
 
 import rqg.fantasy.newchart.chart.day.DayHeartContentRender;
 import rqg.fantasy.newchart.chart.render.BarXAxisRender;
-import rqg.fantasy.newchart.chart.render.BaseBarContentRender;
+import rqg.fantasy.newchart.chart.render.BaseBarDashLineContentRender;
 import rqg.fantasy.newchart.chart.render.IndicatorRender;
 import rqg.fantasy.newchart.chart.render.YAxisRender;
 
@@ -23,8 +23,8 @@ public abstract class BaseBarChart<T extends ChartData> extends View {
 
     protected IndicatorRender mIndicatorRender;
 
-    protected BaseBarContentRender<T> mContentRender;
-    protected BarXAxisRender mBarXAxisRender;
+    protected BaseBarDashLineContentRender<T> mContentRender;
+    protected BarXAxisRender<T> mBarXAxisRender;
     protected YAxisRender mYAxisRender;
 
 
@@ -71,9 +71,9 @@ public abstract class BaseBarChart<T extends ChartData> extends View {
     }
 
 
-    protected abstract BaseBarContentRender<T> getContentRender(int maxWidth);
+    protected abstract BaseBarDashLineContentRender<T> getContentRender(int maxWidth);
 
-    protected abstract BarXAxisRender getBarXAxisRender();
+    protected abstract BarXAxisRender<T> getBarXAxisRender();
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -108,10 +108,11 @@ public abstract class BaseBarChart<T extends ChartData> extends View {
         return true;
     }
 
-    public void setDayHeartData(T chartData) {
+    public void setChartData(T chartData) {
         mDayHeartData = chartData;
         mYAxisRender.setMaxYValue(mDayHeartData.maxYValue());
         mContentRender.setDayHeartData(mDayHeartData);
+        mBarXAxisRender.setChartData(chartData);
 
         invalidate();
     }

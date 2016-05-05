@@ -8,7 +8,7 @@ import rqg.fantasy.newchart.chart.ChartRender;
 /**
  * *Created by rqg on 5/4/16.
  */
-abstract public class BaseBarContentRender<T extends ChartData> implements ChartRender {
+abstract public class BaseBarDashLineContentRender<T extends ChartData> implements ChartRender {
 
     protected T mChartData;
 
@@ -31,7 +31,7 @@ abstract public class BaseBarContentRender<T extends ChartData> implements Chart
     }
 
 
-    public BaseBarContentRender(int maxWidth) {
+    public BaseBarDashLineContentRender(int maxWidth) {
 
         mMaxWidth = maxWidth;
 
@@ -43,10 +43,20 @@ abstract public class BaseBarContentRender<T extends ChartData> implements Chart
 
         mChartData = chartData;
         setSelectedIndex(-1);
-        initBarBounds();
+
+        if (mChartData == null || mChartData.isEmpty()) {
+            mBarBoundsArray = null;
+            onBarBoundsChange();
+            mDashLineRender.emptyPath();
+            return;
+        }
+
+        initBarBoundsAndDashLine();
+
+        onBarBoundsChange();
     }
 
-    abstract protected void initBarBounds();
+    abstract protected void initBarBoundsAndDashLine();
 
 
     public static interface BarBoundsChange {
@@ -66,7 +76,11 @@ abstract public class BaseBarContentRender<T extends ChartData> implements Chart
 
         float cellWidth = (right - left) / mBarBoundsArray.length;
 
-        int index = (int) ((x - left) / cellWidth);
+        float fi = ((x - left) / cellWidth);
+
+        int index = fi < 0f ? -1 : (int) fi;
+
+//        Log.d(TAG, "onTouch() called with: " + "x = [" + x + "], index = [" + index + "], left = [" + left + "], cellWidth = [" + cellWidth + "]");
 
         return setSelectedIndex(index);
     }
@@ -78,6 +92,16 @@ abstract public class BaseBarContentRender<T extends ChartData> implements Chart
         }
     }
 
+
+    protected float getBarWidth(float cellWidth) {
+        float width = cellWidth * 0.8f;
+
+        if (width > mMaxWidth) {
+            width = mMaxWidth;
+        }
+
+        return width;
+    }
 
     public int getSelectedIndex() {
         return mSelectedIndex;

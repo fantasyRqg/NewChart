@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 import rqg.fantasy.newchart.chart.BaseBarChart;
 import rqg.fantasy.newchart.chart.render.BarXAxisRender;
-import rqg.fantasy.newchart.chart.render.BaseBarContentRender;
+import rqg.fantasy.newchart.chart.render.BaseBarDashLineContentRender;
 
 /**
  * *Created by rqg on 4/27/16.
@@ -28,12 +28,12 @@ public class DayHeartChart extends BaseBarChart<DayHeartData> {
     }
 
     @Override
-    protected BaseBarContentRender<DayHeartData> getContentRender(int maxWidth) {
+    protected BaseBarDashLineContentRender<DayHeartData> getContentRender(int maxWidth) {
         return new DayHeartContentRender(maxWidth);
     }
 
     @Override
-    protected BarXAxisRender getBarXAxisRender() {
+    protected BarXAxisRender<DayHeartData> getBarXAxisRender() {
         return new DayHeartXAxisRender();
     }
 }

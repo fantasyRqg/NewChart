@@ -11,6 +11,9 @@ import rqg.fantasy.newchart.chart.ChartData;
 public class BhrHeartData extends ChartData<BhrData> {
     @Override
     public int maxYValue() {
+        if (isEmpty())
+            return 0;
+
         return Collections.max(yValueList, new Comparator<BhrData>() {
             @Override
             public int compare(BhrData lhs, BhrData rhs) {

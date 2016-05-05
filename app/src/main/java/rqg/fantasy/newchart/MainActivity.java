@@ -17,16 +17,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import rqg.fantasy.newchart.chart.MarkerView;
+import rqg.fantasy.newchart.chart.bhr.BhrData;
 import rqg.fantasy.newchart.chart.bhr.BhrHeartChart;
-import rqg.fantasy.newchart.chart.day.DayHeartData;
+import rqg.fantasy.newchart.chart.bhr.BhrHeartData;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
 
     private BhrHeartChart mBhrHeartChart;
-    private Random mRandom = new Random(System.currentTimeMillis());
     private AppCompatSeekBar mSeekBar;
-    private DayHeartData mDayHeartData;
+    private BhrHeartData mBhrHeartData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         mSeekBar.setMax(500);
 
-        mSeekBar.setProgress(24);
-        setChartHeartDayData(24);
+        mSeekBar.setProgress(7);
+        setChartHeartDayData(7);
 
         mBhrHeartChart.setMarkerView(new DayHeartMarkerView(this));
 
@@ -83,17 +83,44 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setChartHeartDayData(int dataSize) {
-        DayHeartData dayHeartData = new DayHeartData();
 
-        ArrayList<Integer> yList = new ArrayList<>(dataSize);
+        Random random = new Random(System.currentTimeMillis());
+
+        BhrHeartData bhd = new BhrHeartData();
+
+        ArrayList<BhrData> yList = new ArrayList<>(dataSize);
         for (int i = 0; i < dataSize; i++) {
-            yList.add(mRandom.nextBoolean() ? 0 : mRandom.nextInt(300));
+            int max, min, base;
+
+            max = random.nextInt(300 - 40) + 40;
+            int b = random.nextInt(max);
+            min = random.nextInt(max - b) + b;
+            base = random.nextInt(max - min) + min;
+            BhrData bhrData = new BhrData();
+            bhrData.max = max;
+            bhrData.min = min;
+            bhrData.bhr = base;
+
+            yList.add(bhrData);
         }
 
-        dayHeartData.setyValueList(yList);
-//        mBhrHeartChart.setBhrHeartData(dayHeartData);
 
-        mDayHeartData = dayHeartData;
+        ArrayList<String> xList = new ArrayList<>(dataSize);
+        xList.add("MON");
+        xList.add("TUE");
+        xList.add("WED");
+        xList.add("THR");
+        xList.add("FRI");
+        xList.add("SAT");
+        xList.add("SUN");
+
+        bhd.setyValueList(yList);
+        bhd.setxLableList(xList);
+
+        mBhrHeartData = bhd;
+
+        mBhrHeartChart.setChartData(mBhrHeartData);
+
     }
 
     public void refresh(View view) {
@@ -113,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void refreshContent(int index) {
-            mTextView.setText(String.valueOf(mDayHeartData.getY(index)));
+            mTextView.setText(String.valueOf(mBhrHeartData.getY(index).bhr));
         }
 
         @Override
