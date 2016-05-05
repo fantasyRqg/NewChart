@@ -99,7 +99,10 @@ public class MainActivity extends AppCompatActivity {
             BhrData bhrData = new BhrData();
             bhrData.max = max;
             bhrData.min = min;
-            bhrData.bhr = base;
+            if (random.nextBoolean())
+                bhrData.bhr = base;
+            else
+                bhrData.bhr = 0;
 
             yList.add(bhrData);
         }

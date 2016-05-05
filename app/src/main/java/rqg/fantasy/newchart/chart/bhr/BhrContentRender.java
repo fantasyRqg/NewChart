@@ -62,11 +62,18 @@ public class BhrContentRender extends BaseBarDashLineContentRender<BhrHeartData>
 
         for (int i = 0; i < mBarBoundsArray.length; i++) {
             BhrData v = yList.get(i);
-            RectF bounds = new RectF(tmp);
-            bounds.top = tmp.bottom - v.max / maxValue * height;
-            bounds.bottom = tmp.bottom - v.min / maxValue * height;
+            RectF bounds = null;
 
-            ChartPoint cp = new ChartPoint(tmp.centerX(), tmp.bottom - v.bhr / maxValue * height);
+            if (v.max != 0 && v.min != 0) {
+                bounds = new RectF(tmp);
+                bounds.top = tmp.bottom - v.max / maxValue * height;
+                bounds.bottom = tmp.bottom - v.min / maxValue * height;
+            }
+
+            ChartPoint cp = null;
+            if (v.bhr != 0) {
+                cp = new ChartPoint(tmp.centerX(), tmp.bottom - v.bhr / maxValue * height);
+            }
 
             tmp.offset(cellWidth, 0);
             mBarBoundsArray[i] = bounds;
@@ -92,6 +99,9 @@ public class BhrContentRender extends BaseBarDashLineContentRender<BhrHeartData>
         if (mBarBoundsArray != null) {
 
             for (RectF b : mBarBoundsArray) {
+                if (b == null)
+                    continue;
+
                 float r = Math.min(b.height(), b.width()) / 2f;
                 canvas.drawRoundRect(b, r, r, mContentPaint);
             }
@@ -100,7 +110,8 @@ public class BhrContentRender extends BaseBarDashLineContentRender<BhrHeartData>
 
         if (mBhrPointArray != null) {
             for (ChartPoint cp : mBhrPointArray) {
-                canvas.drawCircle(cp.x, cp.y, HOLE_RADIUS, mHolePaint);
+                if (cp != null)
+                    canvas.drawCircle(cp.x, cp.y, HOLE_RADIUS, mHolePaint);
             }
         }
     }
