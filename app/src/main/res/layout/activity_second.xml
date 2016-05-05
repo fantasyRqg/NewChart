@@ -6,7 +6,7 @@
               android:gravity="center_horizontal"
               android:orientation="vertical">
 
-    <rqg.fantasy.newchart.chart.day.DayHeartChart
+    <rqg.fantasy.chart.day.DayHeartChart
         android:id="@+id/heart_chart"
         android:layout_width="match_parent"
         android:layout_height="400dp"

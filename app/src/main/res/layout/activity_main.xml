@@ -8,7 +8,7 @@
               android:orientation="vertical"
               tools:context="rqg.fantasy.newchart.MainActivity">
 
-    <rqg.fantasy.newchart.chart.bhr.BhrHeartChart
+    <rqg.fantasy.chart.bhr.BhrHeartChart
         android:id="@+id/heart_chart"
         android:layout_width="match_parent"
         android:layout_height="400dp"

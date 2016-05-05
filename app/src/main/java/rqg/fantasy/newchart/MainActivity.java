@@ -16,10 +16,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-import rqg.fantasy.newchart.chart.MarkerView;
-import rqg.fantasy.newchart.chart.bhr.BhrData;
-import rqg.fantasy.newchart.chart.bhr.BhrHeartChart;
-import rqg.fantasy.newchart.chart.bhr.BhrHeartData;
+import rqg.fantasy.chart.MarkerView;
+import rqg.fantasy.chart.bhr.BhrData;
+import rqg.fantasy.chart.bhr.BhrHeartChart;
+import rqg.fantasy.chart.bhr.BhrHeartData;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

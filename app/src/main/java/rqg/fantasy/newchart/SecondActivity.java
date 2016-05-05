@@ -12,9 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-import rqg.fantasy.newchart.chart.MarkerView;
-import rqg.fantasy.newchart.chart.day.DayHeartChart;
-import rqg.fantasy.newchart.chart.day.DayHeartData;
+import rqg.fantasy.chart.MarkerView;
+import rqg.fantasy.chart.day.DayHeartChart;
+import rqg.fantasy.chart.day.DayHeartData;
 
 /**
  * *Created by rqg on 5/4/16.
